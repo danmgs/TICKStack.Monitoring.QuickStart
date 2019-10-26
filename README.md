@@ -10,7 +10,17 @@ A Console Application to collect measures for TICK Stack.
 .env                                        -> Environment variables configuration
 docker-compose.yml                          -> Docker
 launch.bat                                  -> The launcher of the project
-mydata                                      -> Configuration files for TICK Stack and data storage when running the stack.
+
+chronograf                                  -> Configuration files for TICK Stack + data storage
+influxdb
+  | -- Config
+        |-- influxdb.conf
+kapacitor
+  | -- Config
+        |-- kapacitor.conf
+telegraf
+  | -- telegraf.conf
+
 TICKStack.Monitoring.QuickStart/
     | -- Dockerfile                         -> Docker
 
@@ -51,11 +61,18 @@ launch.bat down
 launch.bat influxdb
 ```
 
+## Delete all data created by the TICK Stack
+
+```
+launch.bat delete-data
+```
+
+
 ## Custom notes for Docker
 
 ### Build image for docker hub
 
-In the root directory (at the **data** directory level):
+In the root directory (at the root directory level):
 
 ```
 docker build -t danmgs/tickstack-monitoring-console -f TICKStack.Monitoring.QuickStart/Dockerfile .

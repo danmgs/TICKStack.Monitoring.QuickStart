@@ -37,10 +37,17 @@ IF "%1"=="influxdb" (
     GOTO End
 )
 
+IF "%1"=="delete-data" (
+    ECHO Deleting all influxdb, kapacitor and chronograf data...
+    rmdir /S /Q kapacitor\data influxdb\data chronograf\data
+    GOTO End
+)
+
 ECHO commands:
 ECHO   up           -^> spin up the sandbox environment
 ECHO   down         -^> tear down the sandbox environment
 ECHO   influxdb     -^> attach to the influx cli
+ECHO   delete-data  -^> delete all data created by the TICK Stack
 
 :End
 IF "%interactive%"=="0" PAUSE
