@@ -4,17 +4,22 @@ A Console Application to collect measures for TICK Stack.
 
 ![alt capture1](https://github.com/danmgs/TICKStack.Monitoring.QuickStart/blob/master/img/chronograf.gif)
 
-## <span style="color:green">FOLDER ORGANIZATION</span>
+## <span style="color:green">Folder Organization</span>
 
 ```
-| -- App.config                 -> A configuration file to configure influxdb stuff.
-| -- Program.cs                 -> Entry point of the application
+docker-compose.yml                          -> Docker
+mydata                                      -> Configuration files for TICK Stack and data storage when running the stack.
+TICKStack.Monitoring.QuickStart/
+    | -- Dockerfile                         -> Docker
 
-| -- /Jobs
-     | -- AbstractMonitoringJob.cs      -> common abstract class
-     | -- HealthMonitoringJob.cs        -> Job "Health" inserts entries in influxdb database "health"
-     | -- IJob.cs                       -> Job Interface
-     | -- PriceMonitoringJob.cs         -> Job "Price" inserts entries in influxdb database "price"
+    | -- App.config                         -> A configuration file to configure influxdb stuff.
+    | -- Program.cs                         -> Entry point of the application
+
+    | -- /Jobs
+        | -- AbstractMonitoringJob.cs       -> common abstract class
+        | -- HealthMonitoringJob.cs         -> Job "Health" inserts entries in influxdb database "health"
+        | -- IJob.cs                        -> Job Interface
+        | -- PriceMonitoringJob.cs          -> Job "Price" inserts entries in influxdb database "price"
 ```
 
 ## <span style="color:green">Launch the TICK STACK</span>
@@ -64,4 +69,42 @@ CREATE RETENTION POLICY "seven_days" ON "health" DURATION 7d REPLICATION 1 DEFAU
 
 ```
     <add key="InfluxDB.Database.Name2" value="health"/>
+```
+
+## <span style="color:green">Launch the Dockerized version</span>
+
+At the root of the solution, run the command :
+
+```
+docker-compose -f "docker-compose.yml" up -d --build
+```
+
+Then open chronograf in a browser, goto http://localhost:8888
+
+Note:
+
+You will need to configure connexion to influxdb and kapacitor using the hostname 'influxdb" + "kapacitor" instead of "localhost".
+
+### <span style="color:green">Pull from docker hub</span>
+
+You can find the docker image [my repository on DockerHub](https://hub.docker.com/r/danmgs/tickstack-monitoring-console).
+
+
+Note :
+This way, instead of building the image, you are able to configure docker-compose to pull image like so:
+
+```
+  tickstack-monitoring-console:
+    image: danmgs/tickstack-monitoring-console:latest
+    environment:
+      INFLUXDB_URL: $ENV_INFLUXDB_URL
+      INFLUXDB_DATABASE_NAME: $ENV_INFLUXDB_DATABASE_NAME
+    links:
+      - influxdb
+    restart: always
+    depends_on:
+      - kapacitor
+      - influxdb
+      - telegraf
+
 ```
