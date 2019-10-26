@@ -1,0 +1,84 @@
+version: '3'
+services:
+
+  influxdb:
+    # Full tag list: https://hub.docker.com/r/library/influxdb/tags/
+    image: $INFLUXDB_TAG
+    volumes:
+      # Mount for influxdb data directory
+      - ./mydata/influxdb/data:/var/lib/influxdb
+      # Mount for influxdb configuration
+      - ./mydata/influxdb/config/:/etc/influxdb/
+    ports:
+      # The API for InfluxDB is served on port 8086
+      - "8086:8086"
+      - "8082:8082"
+      # UDP Port
+      - "8089:8089/udp"
+
+  telegraf:
+    # Full tag list: https://hub.docker.com/r/library/telegraf/tags/
+    image: $TELEGRAF_TAG
+    environment:
+      HOSTNAME: "telegraf-getting-started"
+    # Telegraf requires network access to InfluxDB
+    links:
+      - influxdb
+    volumes:
+      # Mount for telegraf configuration
+      - ./mydata/telegraf/:/etc/telegraf/
+      # Mount for Docker API access
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      - influxdb
+
+  kapacitor:
+  # Full tag list: https://hub.docker.com/r/library/kapacitor/tags/
+    image: $KAPACITOR_TAG
+    volumes:
+      # Mount for kapacitor data directory
+      - ./mydata/kapacitor/data/:/var/lib/kapacitor
+      # Mount for kapacitor configuration
+      - ./mydata/kapacitor/config/:/etc/kapacitor/
+    # Kapacitor requires network access to Influxdb
+    links:
+      - influxdb
+    ports:
+      # The API for Kapacitor is served on port 9092
+      - "9092:9092"
+
+  chronograf:
+    # Full tag list: https://hub.docker.com/r/library/chronograf/tags/
+    image: $CHRONOGRAF_TAG
+    environment:
+      RESOURCES_PATH: "/usr/share/chronograf/resources"
+    volumes:
+      # Mount for chronograf database
+      - ./mydata/chronograf/data/:/var/lib/chronograf/
+    links:
+      # Chronograf requires network access to InfluxDB and Kapacitor
+      - influxdb
+      - kapacitor
+    ports:
+      # The WebUI for Chronograf is served on port 8888
+      - "8888:8888"
+    depends_on:
+      - kapacitor
+      - influxdb
+      - telegraf
+
+  tickstack-monitoring-console:
+    build:
+      context: ./TICKStack.Monitoring.QuickStart
+      dockerfile: Dockerfile
+    container_name: tickstack-monitoring-console
+    environment:
+      INFLUXDB_URL: $ENV_INFLUXDB_URL
+      INFLUXDB_DATABASE_NAME: $ENV_INFLUXDB_DATABASE_NAME
+    links:
+      - influxdb
+    restart: always
+    depends_on:
+      - kapacitor
+      - influxdb
+      - telegraf

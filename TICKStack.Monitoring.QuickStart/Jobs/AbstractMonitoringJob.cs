@@ -1,6 +1,4 @@
-﻿using System;
-using System.Configuration;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace TICKStack.Monitoring.QuickStart.Jobs
 {
@@ -8,9 +6,9 @@ namespace TICKStack.Monitoring.QuickStart.Jobs
     {
         public string InfluxDatabaseName { get; set; }
 
-        public string InfluxDbUrl => ConfigurationManager.AppSettings["InfluxDB.Url"];
+        public string InfluxDbUrl { get; set; }
 
-        public int IntervalInSeconds => Convert.ToInt32(ConfigurationManager.AppSettings["IntervalInSeconds"]);
+        public int IntervalInSeconds { get; set; }
 
         public abstract Task Execute();
     }

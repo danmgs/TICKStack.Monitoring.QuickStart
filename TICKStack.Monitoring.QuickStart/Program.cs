@@ -1,27 +1,33 @@
 ﻿using log4net;
 using System;
-using System.Configuration;
 using System.IO;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml;
 using TICKStack.Monitoring.QuickStart.Jobs;
 
+
 namespace TICKStack.Monitoring.QuickStart
 {
     class Program
     {
-        static readonly ILog log = LogManager.GetLogger(typeof(Program));
+        static readonly ILog _logger = LogManager.GetLogger(typeof(Program));
 
         static async Task Main(string[] args)
         {
             InitLog4net();
 
-            var job = new PriceMonitoringJob() { InfluxDatabaseName = ConfigurationManager.AppSettings["InfluxDB.Database.Name"] };
+            var job = new PriceMonitoringJob()
+            {
+                InfluxDbUrl = Helpers.Utils.GetParamValue("INFLUXDB_URL"),
+                InfluxDatabaseName = Helpers.Utils.GetParamValue("INFLUXDB_DATABASE_NAME"),
+                IntervalInSeconds = Convert.ToInt32(Helpers.Utils.GetParamValue("WRITE_INTERVAL_IN_SECONDS"))
+            };
+            // var job2 = new HealthMonitoringJob() { InfluxDatabaseName = ConfigurationManager.AppSettings["InfluxDB.Database.Name2"] };
+
             await job.Execute();
 
-            Console.WriteLine("Press any key to exit");
-            Console.ReadKey();
+            _logger.Info("End Program");
         }
 
         static void InitLog4net()

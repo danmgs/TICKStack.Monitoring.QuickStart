@@ -3,7 +3,12 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29215.179
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TICKStack.Monitoring.QuickStart", "TICKStack.Monitoring.QuickStart\TICKStack.Monitoring.QuickStart.csproj", "{DFB28430-AFBA-42C5-85D9-11C51194B83E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TICKStack.Monitoring.QuickStart", "TICKStack.Monitoring.QuickStart\TICKStack.Monitoring.QuickStart.csproj", "{DFB28430-AFBA-42C5-85D9-11C51194B83E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4E6F5629-BF7F-4FEA-B7CF-6351EB12D842}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
