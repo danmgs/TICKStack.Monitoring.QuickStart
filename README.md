@@ -8,6 +8,7 @@ A Console Application to collect measures for TICK Stack.
 
 ```
 docker-compose.yml                          -> Docker
+launch.bat                                  -> The launcher of the project
 mydata                                      -> Configuration files for TICK Stack and data storage when running the stack.
 TICKStack.Monitoring.QuickStart/
     | -- Dockerfile                         -> Docker
