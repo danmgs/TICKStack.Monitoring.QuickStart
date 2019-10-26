@@ -3,13 +3,20 @@ WORKDIR /app
 
 FROM mcr.microsoft.com/dotnet/core/sdk:2.2-stretch AS build
 WORKDIR /src
-COPY ["TICKStack.Monitoring.QuickStart.csproj", "./"]
+COPY ["TICKStack.Monitoring.QuickStart/TICKStack.Monitoring.QuickStart.csproj", "./"]
 RUN dotnet restore "./TICKStack.Monitoring.QuickStart.csproj"
-COPY . .
+
+COPY ./TICKStack.Monitoring.QuickStart/ .
+
 RUN dotnet build "TICKStack.Monitoring.QuickStart.csproj" -c Release -o /app
 
 FROM build AS publish
 RUN dotnet publish "TICKStack.Monitoring.QuickStart.csproj" -c Release -o /app
+
+# Copy configs for TICK Stack
+COPY data/influxdb/config/influxdb.conf /app/data/influxdb/config/
+COPY data/kapacitor/config/kapacitor.conf /app/data/kapacitor/config/
+COPY data/telegraf/telegraf.conf /app/data/telegraf/
 
 FROM base AS final
 WORKDIR /app

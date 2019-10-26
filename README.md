@@ -51,13 +51,24 @@ launch.bat down
 launch.bat influxdb
 ```
 
-## Pull image from docker hub
+## Custom notes for Docker
+
+### Build image for docker hub
+
+In the root directory (at the **data** directory level):
+
+```
+docker build -t danmgs/tickstack-monitoring-console -f TICKStack.Monitoring.QuickStart/Dockerfile .
+docker push danmgs/tickstack-monitoring-console:latest
+```
+
+### Pull image from docker hub
 
 You can find the docker image [my repository on DockerHub](https://hub.docker.com/r/danmgs/tickstack-monitoring-console).
 
 
 Note :
-This way, instead of building the image, you are able to configure docker-compose.yaml to pull the image like so:
+This way, instead of building the image, you are able to configure **docker-compose.yml** to pull the image like so:
 
 ```
   tickstack-monitoring-console:
@@ -76,26 +87,15 @@ This way, instead of building the image, you are able to configure docker-compos
 
 ```
 
-
-## Build image for docker hub
-
-Custom notes:
-
-```
-cd TICKStack.Monitoring.QuickStart/
-docker build . -t danmgs/tickstack-monitoring-console
-docker push danmgs/tickstack-monitoring-console:latest
-```
-
 # <span style="color:green">Create the influxdb database</span>
 
 ## Database "price"
 
 You will need to create the database in order to the console to store the datapoint.
 
-You can create teh database via [Chronograf admin interface](http://localhost:8888/sources/10000/admin-influxdb/databases) or via influxdb cli.
+You can create the database via [Chronograf admin interface](http://localhost:8888/sources/10000/admin-influxdb/databases) or via influxdb cli.
 
-- Create database in influx db with retention days (by default infinite)
+- Create database in influxdb with retention days (by default infinite)
 
 ```
 CREATE DATABASE "price"

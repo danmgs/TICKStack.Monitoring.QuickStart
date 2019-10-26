@@ -330,6 +330,6 @@ ASALocalRun/
 .mfractor/
 
 # Custom
-mydata/chronograf/data/
-mydata/influxdb/data/
-mydata/kapacitor/data/
+data/chronograf/data/
+data/influxdb/data/
+data/kapacitor/data/
