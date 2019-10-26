@@ -69,7 +69,10 @@ services:
       - telegraf
 
   tickstack-monitoring-console:
-    image: $ENV_CONSOLE_IMAGE_TAG
+    build:
+      context: ./TICKStack.Monitoring.QuickStart
+      dockerfile: Dockerfile
+    container_name: tickstack-monitoring-console
     environment:
       INFLUXDB_URL: $ENV_INFLUXDB_URL
       INFLUXDB_DATABASE_NAME: $ENV_INFLUXDB_DATABASE_NAME

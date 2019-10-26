@@ -76,14 +76,26 @@ CREATE RETENTION POLICY "seven_days" ON "health" DURATION 7d REPLICATION 1 DEFAU
 At the root of the solution, run the command :
 
 ```
-docker-compose -f "docker-compose.yml" up -d --build
+launch.bat up
 ```
 
-Then open chronograf in a browser, goto http://localhost:8888
+It will docker compose then open [chronograf](http://localhost:8888) in a browser.
 
 Note:
 
 You will need to configure connexion to influxdb and kapacitor using the hostname 'influxdb" + "kapacitor" instead of "localhost".
+
+### <span style="color:green">Stop the dockerized version</span>
+
+```
+launch.bat down
+```
+
+### <span style="color:green">Connect to influxdb client</span>
+
+```
+launch.bat influxdb
+```
 
 ### <span style="color:green">Pull from docker hub</span>
 
