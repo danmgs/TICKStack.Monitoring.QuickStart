@@ -4,7 +4,7 @@ A Console Application to collect measures for TICK Stack.
 
 ![alt capture1](https://github.com/danmgs/TICKStack.Monitoring.QuickStart/blob/master/img/chronograf.gif)
 
-## <span style="color:green">Folder Organization</span>
+# <span style="color:green">Folder Organization</span>
 
 ```
 docker-compose.yml                          -> Docker
@@ -23,56 +23,9 @@ TICKStack.Monitoring.QuickStart/
         | -- PriceMonitoringJob.cs          -> Job "Price" inserts entries in influxdb database "price"
 ```
 
-## <span style="color:green">Launch the TICK STACK</span>
+# <span style="color:green">Launch the Docker version</span>
 
-Use the [sandbox project](https://github.com/danmgs/sandbox) to launch the TICK Stack. It is a dockerized version.
-
-## <span style="color:green">Configure the C# console application</span>
-
-- Configure the app.config with the influxdb url and time interval for the Metric Collector
-```
-	<add key="WRITE_INTERVAL_IN_SECONDS" value="2"/>
-    <add key="INFLUXDB_URL" value="http://localhost:8086"/>
-```
-
-## <span style="color:green">Configure the influxdb database to put entries</span>
-
-### <span style="color:green">Database "price"</span>
-
-Note:
-You can create them via [Chronograf admin interface](http://localhost:8888/sources/10000/admin-influxdb/databases) or via influxdb cli.
-
-- Create database in influx db with retention days (by default infinite)
-
-```
-CREATE DATABASE "price"
-CREATE RETENTION POLICY "seven_days" ON "price" DURATION 7d REPLICATION 1 DEFAULT
-
-```
-
-- Configure the app.config with the database name
-
-```
-    <add key="INFLUXDB_DATABASE_NAME" value="price"/>
-```
-
-### <span style="color:green">Database "health"</span>
-
-- Create database in influx db with retention days (by default infinite)
-
-```
-CREATE DATABASE "health"
-CREATE RETENTION POLICY "seven_days" ON "health" DURATION 7d REPLICATION 1 DEFAULT
-
-```
-
-- Configure the app.config with the database name
-
-```
-    <add key="InfluxDB.Database.Name2" value="health"/>
-```
-
-## <span style="color:green">Launch the Dockerized version</span>
+## Start the dockerized version
 
 At the root of the solution, run the command :
 
@@ -80,31 +33,29 @@ At the root of the solution, run the command :
 launch.bat up
 ```
 
-It will docker compose then open [chronograf](http://localhost:8888) in a browser.
+It will docker-compose to run the TICK Stack and the C# console application, It will open [chronograf](http://localhost:8888) in a browser.
 
-Note:
+At first time launching chronograf, you will need to configure connexion to influxdb and kapacitor using the hostname 'influxdb" + "kapacitor" instead of "localhost".
 
-You will need to configure connexion to influxdb and kapacitor using the hostname 'influxdb" + "kapacitor" instead of "localhost".
-
-### <span style="color:green">Stop the dockerized version</span>
+## Stop the dockerized version
 
 ```
 launch.bat down
 ```
 
-### <span style="color:green">Connect to influxdb client</span>
+## Connect to influxdb client to execute some queries
 
 ```
 launch.bat influxdb
 ```
 
-### <span style="color:green">Pull from docker hub</span>
+## Pull image from docker hub
 
 You can find the docker image [my repository on DockerHub](https://hub.docker.com/r/danmgs/tickstack-monitoring-console).
 
 
 Note :
-This way, instead of building the image, you are able to configure docker-compose to pull image like so:
+This way, instead of building the image, you are able to configure docker-compose.yaml to pull the image like so:
 
 ```
   tickstack-monitoring-console:
@@ -121,3 +72,33 @@ This way, instead of building the image, you are able to configure docker-compos
       - telegraf
 
 ```
+
+# <span style="color:green">Create the influxdb database</span>
+
+## Database "price"
+
+You will need to create the database in order to the console to store the datapoint.
+
+You can create teh database via [Chronograf admin interface](http://localhost:8888/sources/10000/admin-influxdb/databases) or via influxdb cli.
+
+- Create database in influx db with retention days (by default infinite)
+
+```
+CREATE DATABASE "price"
+CREATE RETENTION POLICY "seven_days" ON "price" DURATION 7d REPLICATION 1 DEFAULT
+
+```
+
+# <span style="color:green">Launch the console locally</span>
+
+## Configure the C# console application to run and/or debug locally
+
+Configure the app.config with the influxdb url, time interval, and database name :
+```
+	<add key="WRITE_INTERVAL_IN_SECONDS" value="2"/>
+    <add key="INFLUXDB_URL" value="http://localhost:8086"/>
+    <add key="INFLUXDB_DATABASE_NAME" value="price"/>
+```
+
+
+
