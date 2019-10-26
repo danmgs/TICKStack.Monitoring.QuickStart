@@ -76,6 +76,7 @@ services:
     environment:
       INFLUXDB_URL: $ENV_INFLUXDB_URL
       INFLUXDB_DATABASE_NAME: $ENV_INFLUXDB_DATABASE_NAME
+      WRITE_INTERVAL_IN_SECONDS: $ENV_WRITE_INTERVAL_IN_SECONDS
     links:
       - influxdb
     restart: always

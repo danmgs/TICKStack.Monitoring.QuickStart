@@ -11,6 +11,7 @@ IF "%1"=="up" (
     # Uncomment to overrides .env configuration here
     REM SET ENV_CONSOLE_IMAGE_TAG=danmgs/tickstack-monitoring-console:latest
     REM SET ENV_INFLUXDB_URL=http://influxdb:8086
+    REM SET WRITE_INTERVAL_IN_SECONDS: $ENV_WRITE_INTERVAL_IN_SECONDS
     REM SET ENV_INFLUXDB_DATABASE_NAME=price
     REM SET TELEGRAF_TAG=telegraf:latest
     REM SET INFLUXDB_TAG=influxdb:latest

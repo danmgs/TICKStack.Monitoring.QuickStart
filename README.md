@@ -7,6 +7,7 @@ A Console Application to collect measures for TICK Stack.
 # <span style="color:green">Folder Organization</span>
 
 ```
+.env                                        -> Environment variables configuration
 docker-compose.yml                          -> Docker
 launch.bat                                  -> The launcher of the project
 mydata                                      -> Configuration files for TICK Stack and data storage when running the stack.
@@ -27,6 +28,7 @@ TICKStack.Monitoring.QuickStart/
 
 ## Start the dockerized version
 
+You can configure some environment variables in the .env file.
 At the root of the solution, run the command :
 
 ```
@@ -35,7 +37,7 @@ launch.bat up
 
 It will docker-compose to run the TICK Stack and the C# console application, It will open [chronograf](http://localhost:8888) in a browser.
 
-At first time launching chronograf, you will need to configure connexion to influxdb and kapacitor using the hostname 'influxdb" + "kapacitor" instead of "localhost".
+At first time launching chronograf, you will need to configure connexion to influxdb and kapacitor using the hostname:port 'influxdb:8086" + "kapacitor:9092" (docker urls) instead of "localhost".
 
 ## Stop the dockerized version
 
@@ -63,6 +65,7 @@ This way, instead of building the image, you are able to configure docker-compos
     environment:
       INFLUXDB_URL: $ENV_INFLUXDB_URL
       INFLUXDB_DATABASE_NAME: $ENV_INFLUXDB_DATABASE_NAME
+      WRITE_INTERVAL_IN_SECONDS: $ENV_WRITE_INTERVAL_IN_SECONDS
     links:
       - influxdb
     restart: always
@@ -71,6 +74,17 @@ This way, instead of building the image, you are able to configure docker-compos
       - influxdb
       - telegraf
 
+```
+
+
+## Build image for docker hub
+
+Custom notes:
+
+```
+cd TICKStack.Monitoring.QuickStart/
+docker build . -t danmgs/tickstack-monitoring-console
+docker push danmgs/tickstack-monitoring-console:latest
 ```
 
 # <span style="color:green">Create the influxdb database</span>
@@ -95,9 +109,9 @@ CREATE RETENTION POLICY "seven_days" ON "price" DURATION 7d REPLICATION 1 DEFAUL
 
 Configure the app.config with the influxdb url, time interval, and database name :
 ```
-	<add key="WRITE_INTERVAL_IN_SECONDS" value="2"/>
-    <add key="INFLUXDB_URL" value="http://localhost:8086"/>
-    <add key="INFLUXDB_DATABASE_NAME" value="price"/>
+<add key="WRITE_INTERVAL_IN_SECONDS" value="2"/>
+<add key="INFLUXDB_URL" value="http://localhost:8086"/>
+<add key="INFLUXDB_DATABASE_NAME" value="price"/>
 ```
 
 
