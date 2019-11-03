@@ -7,31 +7,31 @@ A Console Application to collect measures for TICK Stack.
 # <span style="color:green">Folder Organization</span>
 
 ```
-.env                                        -> Environment variables configuration
-docker-compose.yml                          -> Docker
-launch.bat                                  -> The launcher of the project
+| -- .env                                     -> Environment variables configuration
+| -- docker-compose.yml                       -> Docker
+| -- launch.bat                               -> The launcher of the project
 
-chronograf                                  -> Configuration files for TICK Stack + data storage
-influxdb
-  | -- Config
-        |-- influxdb.conf
-kapacitor
-  | -- Config
-        |-- kapacitor.conf
-telegraf
-  | -- telegraf.conf
+| -- /chronograf/                             -> Configuration files for TICK Stack + data storage
+| -- /influxdb/
+      | -- Config
+            |-- influxdb.conf
+| --/kapacitor/
+      | -- /Config/
+            |-- kapacitor.conf
+| --/telegraf/
+      | -- telegraf.conf
 
-TICKStack.Monitoring.QuickStart/
-    | -- Dockerfile                         -> Docker
+| --/TICKStack.Monitoring.QuickStart/
+      | -- Dockerfile                         -> Docker
 
-    | -- App.config                         -> A configuration file to configure influxdb stuff.
-    | -- Program.cs                         -> Entry point of the application
+      | -- App.config                         -> A configuration file to configure influxdb stuff.
+      | -- Program.cs                         -> Entry point of the application
 
-    | -- /Jobs
-        | -- AbstractMonitoringJob.cs       -> common abstract class
-        | -- HealthMonitoringJob.cs         -> Job "Health" inserts entries in influxdb database "health"
-        | -- IJob.cs                        -> Job Interface
-        | -- PriceMonitoringJob.cs          -> Job "Price" inserts entries in influxdb database "price"
+      | -- /Jobs/
+            | -- AbstractMonitoringJob.cs      -> common abstract class
+            | -- HealthMonitoringJob.cs        -> Job "Health" inserts entries in influxdb database "health"
+            | -- IJob.cs                       -> Job Interface
+            | -- PriceMonitoringJob.cs         -> Job "Price" inserts entries in influxdb database "price"
 ```
 
 # <span style="color:green">Launch the Docker version</span>

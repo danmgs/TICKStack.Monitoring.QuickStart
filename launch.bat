@@ -8,7 +8,7 @@ IF "%1"=="up" (
     ECHO Launching...
     ECHO If this is your first time starting the project this might take a minute...
 
-    # Uncomment to overrides .env configuration here
+    REM Uncomment to overrides .env configuration here
     REM SET ENV_CONSOLE_IMAGE_TAG=danmgs/tickstack-monitoring-console:latest
     REM SET ENV_INFLUXDB_URL=http://influxdb:8086
     REM SET WRITE_INTERVAL_IN_SECONDS: $ENV_WRITE_INTERVAL_IN_SECONDS
